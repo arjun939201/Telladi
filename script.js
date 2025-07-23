@@ -101,22 +101,21 @@ function searchDictionary(query) {
       </thead>
       <tbody>
   `;
+results.forEach(entry => {
+  const teluguWord = entry.scripts.telugu || entry.root; // ✅ fallback to root
+  const transliteration = entry.scripts.iast;
+  const label = entry.label || "";
+  const note = entry.note ? `<span class="note">${entry.note}</span>` : "";
 
-  results.forEach(entry => {
-    const teluguWord = entry.scripts.telugu;
-    const transliteration = entry.scripts.iast;
-    const label = entry.label || "";
-    const note = entry.note ? `<span class="note">${entry.note}</span>` : "";
-
-    html += `
-      <tr>
-        <td>${highlightMatch(teluguWord, query)}</td>
-        <td>${highlightMatch(transliteration, query)}</td>
-        <td>${label}</td>
-        <td>${highlightMatch(entry.meaning, query)} ${note}</td>
-      </tr>
-    `;
-  });
+  html += `
+    <tr>
+      <td>${highlightMatch(teluguWord, query)}</td>
+      <td>${highlightMatch(transliteration, query)}</td>
+      <td>${label}</td>
+      <td>${highlightMatch(entry.meaning, query)} ${note}</td>
+    </tr>
+  `;
+});
 
   html += "</tbody></table>";
   resultsDiv.innerHTML = html;
