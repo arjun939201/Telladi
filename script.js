@@ -33,7 +33,7 @@ function liveSearch() {
   container.innerHTML = '';
 
   if (!term) {
-    container.innerHTML = '<p class="tip">🔍 Type above to search words</p>';
+    container.innerHTML = '<p class="tip">🔍 Type a word above to begin searching.</p>';
     return;
   }
 
@@ -41,7 +41,8 @@ function liveSearch() {
     word.toLowerCase().includes(term) ||
     data.meaning.toLowerCase().includes(term) ||
     data.comment?.toLowerCase().includes(term) ||
-    data.synonyms?.some(s => s.toLowerCase().includes(term))
+    data.synonyms?.some(s => s.toLowerCase().includes(term)) ||
+    data.example?.toLowerCase().includes(term)
   );
 
   if (results.length === 0) {
