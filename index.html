@@ -1,10 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html lang="te">
 <head>
-  <meta http-equiv="refresh" content="3; url=https://github.com/arjun939201/Telladi/frontend.js" />
-  <title>Redirecting...</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🪔 Telladi - తెలుగు నిఘంటువు</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <p>Redirecting you to the new page in 3 seconds...</p>
+  <div class="container">
+    <h1>🪔 Telladi</h1>
+    <p class="subtitle">తెలుగు పదాల నిఘంటువు</p>
+
+    <!-- Search Area -->
+    <input type="text" id="searchInput" placeholder="పదం వెతకండి..." />
+    <button onclick="searchWord()">Search</button>
+    <div id="result" class="result-box"></div>
+
+    <!-- Comment Area -->
+    <div id="commentArea" style="display:none;">
+      <textarea id="commentInput" placeholder="ఈ పదానికి వ్యాఖ్య రాయండి..."></textarea>
+      <button onclick="addComment()">Add Comment</button>
+      <p id="commentMessage"></p>
+    </div>
+
+    <hr />
+
+    <!-- Insert Area -->
+    <h3>పుదుపదం చేర్చండి (Insert New Word)</h3>
+    <input type="text" id="newWord" placeholder="తెలుగు పదం" />
+    <input type="text" id="newMeaning" placeholder="English Meaning" />
+    <button onclick="addWord()">Add Word</button>
+    <div id="insertMsg" class="insert-msg"></div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
