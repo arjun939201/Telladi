@@ -30,26 +30,30 @@ function liveSearch() {
   const container = document.getElementById('resultsContainer');
   container.innerHTML = '';
 
-  if (input.length === 0) {
+  if (input === "") {
     container.innerHTML = '<p class="tip">Start typing to see results...</p>';
     return;
   }
 
-  const results = Object.entries(dictionary).filter(([word, entry]) => {
-    return (
-      word.toLowerCase().includes(input) ||
-      (entry.meaning && entry.meaning.toLowerCase().includes(input)) ||
-      (entry.example && entry.example.toLowerCase().includes(input)) ||
-      (entry.synonyms && entry.synonyms.some(syn => syn.toLowerCase().includes(input)))
-    );
-  });
+  const results = [];
+
+  for (const [word, entry] of Object.entries(dictionary)) {
+    const foundInKey = word.toLowerCase().includes(input);
+    const foundInMeaning = entry.meaning.toLowerCase().includes(input);
+    const foundInExample = entry.example.toLowerCase().includes(input);
+    const foundInSynonyms = entry.synonyms.some(syn => syn.toLowerCase().includes(input));
+
+    if (foundInKey || foundInMeaning || foundInExample || foundInSynonyms) {
+      results.push({ word, entry });
+    }
+  }
 
   if (results.length === 0) {
     container.innerHTML = `<p class="tip">No results found for "${input}"</p>`;
     return;
   }
 
-  results.forEach(([word, entry]) => {
+  results.forEach(({ word, entry }) => {
     const card = document.createElement('div');
     card.className = 'word-card';
 
