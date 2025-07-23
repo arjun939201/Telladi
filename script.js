@@ -1,41 +1,58 @@
 const dictionary = [
   {
-    telugu: "నుడి",
-    transliteration: "Nuḍi",
     meaning: "Language",
-    phonetic: ["nudi", "nuti"]
+    phonetic: ["nudi", "bhasha"],
+    scripts: {
+      telugu: "నుడి",
+      devanagari: "नुडि",
+      kannada: "ನುಡಿ",
+      tamil: "நுடி",
+      malayalam: "നുടി",
+      bengali: "নুডি",
+      gujarati: "નુડી",
+      gurmukhi: "ਨੁਡੀ",
+      odia: "ନୁଡି",
+      iast: "nuḍi",
+      ascii: "nudi"
+    }
   },
   {
-    telugu: "మాటోలి",
-    transliteration: "Māṭōli",
     meaning: "Vocabulary",
-    phonetic: ["matoli", "maatoli"]
+    phonetic: ["maatoli", "padakosha"],
+    scripts: {
+      telugu: "మాటోలి",
+      devanagari: "माटोली",
+      kannada: "ಮಾಟೋಲಿ",
+      tamil: "மாட்டோலி",
+      malayalam: "മാട്ടോളി",
+      bengali: "মাটোলি",
+      gujarati: "માટોલી",
+      gurmukhi: "ਮਾਟੋਲੀ",
+      odia: "ମାଟୋଲି",
+      iast: "māṭōli",
+      ascii: "maatoli"
+    }
   },
   {
-    telugu: "తెల్లడి",
-    transliteration: "Tellaḍi",
-    meaning: "Dictionary",
-    phonetic: ["telladi", "teladi"]
-  },
-  {
-    telugu: "చదువు",
-    transliteration: "Chaduvu",
-    meaning: "Education",
-    phonetic: ["chaduvu", "chadhuvu"]
-  },
-  {
-    telugu: "నేస్తం",
-    transliteration: "Nēstaṁ",
     meaning: "Friend",
-    phonetic: ["nestam", "nesta"]
-  },
-  {
-    telugu: "భాష",
-    transliteration: "Bhāṣa",
-    meaning: "Language",
-    phonetic: ["bhasha", "bhaasha", "basa"]
+    phonetic: ["nesta", "mitra"],
+    scripts: {
+      telugu: "నేస్తం",
+      devanagari: "नेस्तं",
+      kannada: "ನೇಸ್ತಂ",
+      tamil: "நேஸ்தம்",
+      malayalam: "നേഷ്തം",
+      bengali: "নেস্তং",
+      gujarati: "નેસ્તં",
+      gurmukhi: "ਨੇਸਤੰ",
+      odia: "ନେସ୍ତଂ",
+      iast: "nēstaṁ",
+      ascii: "nestam"
+    }
   }
 ];
+
+let currentScript = "telugu";
 
 function highlightMatch(text, query) {
   if (!query) return text;
@@ -46,12 +63,21 @@ function highlightMatch(text, query) {
 function matches(entry, query) {
   const q = query.toLowerCase();
   return (
-    entry.telugu.includes(query) ||
-    entry.transliteration.toLowerCase().includes(q) ||
+    Object.values(entry.scripts).some(val => val.toLowerCase().includes(q)) ||
     entry.meaning.toLowerCase().includes(q) ||
-    (Array.isArray(entry.phonetic) &&
-     entry.phonetic.some(p => p.toLowerCase().includes(q)))
+    (entry.phonetic && entry.phonetic.some(p => p.toLowerCase().includes(q)))
   );
+}
+
+function render(entry, query) {
+  const scriptText = entry.scripts[currentScript] || entry.scripts.iast;
+  return `
+    <div class="result">
+      <h3>${highlightMatch(scriptText, query)}</h3>
+      <p><strong>Meaning:</strong> ${highlightMatch(entry.meaning, query)}</p>
+      <small>IAST: ${entry.scripts.iast} | ASCII: ${entry.scripts.ascii}</small>
+    </div>
+  `;
 }
 
 function searchDictionary(query) {
@@ -68,19 +94,16 @@ function searchDictionary(query) {
   }
 
   results.forEach(entry => {
-    const div = document.createElement("div");
-    div.className = "result";
-
-    div.innerHTML = `
-      <h3>${highlightMatch(entry.telugu, query)}</h3>
-      <p><strong>Transliteration:</strong> ${highlightMatch(entry.transliteration, query)}</p>
-      <p><strong>Meaning:</strong> ${highlightMatch(entry.meaning, query)}</p>
-    `;
-
-    resultsDiv.appendChild(div);
+    resultsDiv.innerHTML += render(entry, query);
   });
 }
 
 document.getElementById("searchInput").addEventListener("input", (e) => {
   searchDictionary(e.target.value.trim());
+});
+
+document.getElementById("scriptSelect").addEventListener("change", (e) => {
+  currentScript = e.target.value;
+  const query = document.getElementById("searchInput").value.trim();
+  searchDictionary(query);
 });
