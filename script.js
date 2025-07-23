@@ -2,38 +2,27 @@ const dictionary = [
   {
     telugu: "నుడి",
     transliteration: "Nuḍi",
-    meaning: "Language",
-    phonetic: ["nudi", "nudi", "nuti"]
+    meaning: "Language"
   },
   {
     telugu: "మాటోలి",
     transliteration: "Māṭōli",
-    meaning: "Vocabulary",
-    phonetic: ["matoli", "maatoli"]
+    meaning: "Vocabulary"
   },
   {
     telugu: "తెల్లడి",
     transliteration: "Tellaḍi",
-    meaning: "Dictionary",
-    phonetic: ["telladi", "teladi"]
+    meaning: "Dictionary"
   },
   {
     telugu: "చదువు",
     transliteration: "Chaduvu",
-    meaning: "Education",
-    phonetic: ["chaduvu", "chadhuvu"]
+    meaning: "Education"
   },
   {
     telugu: "నేస్తం",
     transliteration: "Nēstaṁ",
-    meaning: "Friend",
-    phonetic: ["nestam", "nesta"]
-  },
-  {
-    telugu: "భాష",
-    transliteration: "Bhāṣa",
-    meaning: "Language",
-    phonetic: ["bhasha", "bhaasha", "basa"]
+    meaning: "Friend"
   }
 ];
 
@@ -47,8 +36,7 @@ function searchDictionary(query) {
   const results = dictionary.filter(entry =>
     entry.telugu.includes(query) ||
     entry.transliteration.toLowerCase().includes(lowerQuery) ||
-    entry.meaning.toLowerCase().includes(lowerQuery) ||
-    (entry.phonetic && entry.phonetic.some(p => p.includes(lowerQuery)))
+    entry.meaning.toLowerCase().includes(lowerQuery)
   );
 
   const resultsDiv = document.getElementById("results");
