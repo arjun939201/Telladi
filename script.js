@@ -26,7 +26,7 @@ const dictionary = {
 };
 
 function liveSearch() {
-  const input = document.getElementById('searchBox').value.trim();
+  const input = document.getElementById('searchBox').value.trim().toLowerCase();
   const container = document.getElementById('resultsContainer');
   container.innerHTML = '';
 
@@ -35,15 +35,21 @@ function liveSearch() {
     return;
   }
 
-  const results = Object.keys(dictionary).filter(word => word.includes(input));
+  const results = Object.entries(dictionary).filter(([word, entry]) => {
+    return (
+      word.toLowerCase().includes(input) ||
+      entry.meaning.toLowerCase().includes(input) ||
+      entry.example.toLowerCase().includes(input) ||
+      entry.synonyms.some(syn => syn.toLowerCase().includes(input))
+    );
+  });
 
   if (results.length === 0) {
     container.innerHTML = `<p class="tip">No results found for "${input}"</p>`;
     return;
   }
 
-  results.forEach(word => {
-    const entry = dictionary[word];
+  results.forEach(([word, entry]) => {
     const card = document.createElement('div');
     card.className = 'word-card';
 
