@@ -3,109 +3,71 @@ const dictionary = [
     label: "n.",
     meaning: "language",
     note: "[native word]",
+    root: "nudi",
     scripts: {
       telugu: "నుడి",
-      devanagari: "नुडि",
-      kannada: "ನುಡಿ",
-      tamil: "நுடி",
       iast: "nuḍi",
-      ascii: "nudi"
+      hk: "nudi"
     }
   },
   {
     label: "n.",
     meaning: "dictionary",
     note: "[word list]",
+    root: "telladi",
     scripts: {
       telugu: "తెల్లడి",
-      devanagari: "तॆल्लडि",
-      kannada: "ತೆಲ್ಲಡಿ",
-      tamil: "தெல்லடி",
       iast: "tellaḍi",
-      ascii: "telladi"
+      hk: "telladi"
     }
   },
   {
     label: "n.",
     meaning: "vocabulary",
     note: "[collection of words]",
+    root: "maatoli",
     scripts: {
       telugu: "మాటోలి",
-      devanagari: "माटोली",
-      kannada: "ಮಾಟೋಲಿ",
-      tamil: "மாட்டோலி",
       iast: "māṭōli",
-      ascii: "maatoli"
+      hk: "maatoli"
     }
   },
   {
     label: "n.",
     meaning: "education",
     note: "[learning process]",
+    root: "chaduvu",
     scripts: {
       telugu: "చదువు",
-      devanagari: "चदुवु",
-      kannada: "ಚದುವು",
-      tamil: "சதுவு",
       iast: "chaduvu",
-      ascii: "chaduvu"
+      hk: "chaduvu"
     }
   },
   {
     label: "n.",
     meaning: "friend",
-    note: "[native term]",
+    note: "[close person]",
+    root: "nestam",
     scripts: {
       telugu: "నేస్తం",
-      devanagari: "नेस्तं",
-      kannada: "ನೇಸ್ತಂ",
-      tamil: "நேஸ்தம்",
       iast: "nēstaṁ",
-      ascii: "nestam"
-    }
-  },
-  {
-    label: "n.",
-    meaning: "love",
-    note: "[deep affection]",
-    scripts: {
-      telugu: "కూర్మి",
-      devanagari: "कूर्मि",
-      kannada: "ಕೂರ್ಮಿ",
-      tamil: "கூர்மி",
-      iast: "kūrmi",
-      ascii: "kurmi"
+      hk: "nestam"
     }
   },
   {
     label: "n.",
     meaning: "truth",
     note: "[reality]",
+    root: "nikkam",
     scripts: {
       telugu: "నిక్కం",
-      devanagari: "निक्कं",
-      kannada: "ನಿಕ್ಕಂ",
-      tamil: "நிக்கம்",
       iast: "nikkaṁ",
-      ascii: "nikkam"
-    }
-  },
-  {
-    label: "n.",
-    meaning: "protection",
-    note: "[guarding]",
-    scripts: {
-      telugu: "కాపుదల",
-      devanagari: "कापुदल",
-      kannada: "ಕಾಪುದಲ",
-      tamil: "காபுதல",
-      iast: "kāpudala",
-      ascii: "kapudala"
+      hk: "nikkam"
     }
   }
 ];
 
-let currentScript = "telugu";
+let currentScript = "tel"; // default = Telugu
 
 function highlightMatch(text, query) {
   if (!query) return text;
@@ -116,9 +78,19 @@ function highlightMatch(text, query) {
 function matches(entry, query) {
   const q = query.toLowerCase();
   return (
+    entry.root.toLowerCase().includes(q) ||
     Object.values(entry.scripts).some(val => val.toLowerCase().includes(q)) ||
     entry.meaning.toLowerCase().includes(q)
   );
+}
+
+function transliterateFallback(root, targetScript) {
+  if (!root) return "—";
+  try {
+    return IndiTrans.convert(root, "hk", targetScript);
+  } catch {
+    return root;
+  }
 }
 
 function searchDictionary(query) {
@@ -147,18 +119,22 @@ function searchDictionary(query) {
   `;
 
   results.forEach(entry => {
-    const scriptText = entry.scripts[currentScript] || entry.scripts.iast;
-    const translit = entry.scripts.iast || entry.scripts.ascii;
-    const meaning = highlightMatch(entry.meaning, query);
+    const root = entry.root;
+    const translit = entry.scripts.iast || entry.scripts.hk || root;
     const label = entry.label || "";
-    const note = entry.note ? ` <span class="note">${entry.note}</span>` : "";
+    const note = entry.note ? `<span class="note">${entry.note}</span>` : "";
+    let scriptWord = entry.scripts[currentScript];
+
+    if (!scriptWord) {
+      scriptWord = transliterateFallback(root, currentScript);
+    }
 
     html += `
       <tr>
-        <td>${highlightMatch(scriptText, query)}</td>
+        <td>${highlightMatch(scriptWord, query)}</td>
         <td>${highlightMatch(translit, query)}</td>
         <td>${label}</td>
-        <td>${meaning}${note}</td>
+        <td>${highlightMatch(entry.meaning, query)} ${note}</td>
       </tr>
     `;
   });
@@ -166,3 +142,13 @@ function searchDictionary(query) {
   html += "</tbody></table>";
   resultsDiv.innerHTML = html;
 }
+
+document.getElementById("searchInput").addEventListener("input", (e) => {
+  searchDictionary(e.target.value.trim());
+});
+
+document.getElementById("scriptSelect").addEventListener("change", (e) => {
+  currentScript = e.target.value;
+  const query = document.getElementById("searchInput").value.trim();
+  searchDictionary(query);
+});
