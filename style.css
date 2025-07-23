@@ -1,17 +1,29 @@
+:root {
+  --bg: #f4f4f9;
+  --card-bg: #fff;
+  --text: #222;
+  --accent: #4a3fb3;
+  --accent-dark: #372e91;
+}
+[data-theme="dark"] {
+  --bg: #1d1e26;
+  --card-bg: #2b2c37;
+  --text: #eee;
+  --accent: #8b80f9;
+  --accent-dark: #6f69d1;
+}
 body {
   font-family: 'Noto Sans Telugu', sans-serif;
-  background-color: #f9fafc;
+  background: var(--bg);
+  color: var(--text);
   margin: 0;
-  padding: 0;
 }
-
 .header {
-  background-color: #443e8e;
+  background-color: var(--accent);
   color: white;
   padding: 20px;
   text-align: center;
 }
-
 .header input {
   margin-top: 10px;
   padding: 10px;
@@ -21,96 +33,119 @@ body {
   border-radius: 8px;
   font-size: 1em;
 }
-
+.theme-toggle {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.9em;
+}
 .results {
   padding: 20px;
-  max-width: 700px;
+  max-width: 800px;
   margin: auto;
 }
-
 .word-card {
-  background: white;
-  border-left: 4px solid #443e8e;
+  background: var(--card-bg);
+  border-left: 5px solid var(--accent);
   margin-bottom: 15px;
   padding: 15px;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
-
 .word-card h2 {
   margin-top: 0;
-  color: #443e8e;
+  color: var(--accent);
 }
-
-.word-card .pos {
-  font-style: italic;
-  color: #777;
+.pos, .example, .synonyms, .comment {
+  margin: 5px 0;
 }
-
-.word-card .example {
-  margin-top: 5px;
-  color: #444;
-}
-
-.word-card .synonyms {
-  margin-top: 8px;
-  color: #555;
-  font-size: 0.95em;
-}
-
-.word-card .comment {
-  margin-top: 8px;
-  font-size: 0.95em;
-  color: #555;
-}
-
 mark {
   background-color: yellow;
-  color: black;
 }
-
 .insert-section {
-  padding: 20px;
-  background: #fff;
-  border-top: 1px solid #ccc;
-  margin: 30px auto;
+  padding: 25px;
   max-width: 700px;
-  border-radius: 12px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  margin: 40px auto;
+  background: var(--card-bg);
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.07);
 }
-
+.insert-section h3 {
+  text-align: center;
+  color: var(--accent);
+}
 .insert-section input,
 .insert-section textarea {
-  display: block;
   width: 90%;
   margin: 10px auto;
+  display: block;
   padding: 10px;
   font-size: 1em;
   border: 1px solid #ccc;
   border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
 }
-
 .insert-section button {
-  background-color: #443e8e;
-  color: white;
-  border: none;
+  display: block;
+  margin: 10px auto;
   padding: 10px 20px;
+  background-color: var(--accent);
+  color: white;
   font-size: 1em;
+  border: none;
   border-radius: 6px;
   cursor: pointer;
 }
-
 .insert-section button:hover {
-  background-color: #372e7b;
+  background-color: var(--accent-dark);
 }
-
 .insert-msg {
   text-align: center;
   margin-top: 10px;
   font-weight: bold;
 }
-
 .tip {
-  color: #999;
   text-align: center;
+  color: #777;
+}
+.recent-words {
+  max-width: 700px;
+  margin: 20px auto;
+  text-align: center;
+}
+.recent-words span {
+  background: var(--card-bg);
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  border-radius: 6px;
+  padding: 6px 12px;
+  margin: 5px;
+  display: inline-block;
+  cursor: pointer;
+}
+.word-actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+.word-actions button {
+  padding: 5px 10px;
+  font-size: 0.85em;
+  cursor: pointer;
+  border-radius: 5px;
+  border: none;
+}
+.word-actions .edit {
+  background: #ffc107;
+  color: #222;
+}
+.word-actions .delete {
+  background: #e53935;
+  color: white;
 }
