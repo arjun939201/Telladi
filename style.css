@@ -1,20 +1,32 @@
 body {
   font-family: "Segoe UI", sans-serif;
-  background-color: #fefefe;
+  background-color: #f7f2e4;
   margin: 0;
   padding: 0;
 }
 
 .container {
-  max-width: 800px;
+  max-width: 900px;
   margin: 40px auto;
   padding: 20px;
 }
 
 h1 {
   text-align: center;
-  color: #2d2d2d;
+  color: #703c00;
   margin-bottom: 30px;
+}
+
+.settings {
+  background-color: #fff4da;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  font-size: 16px;
+  color: #4a2f00;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 input[type="text"] {
@@ -27,7 +39,7 @@ input[type="text"] {
 }
 
 .result {
-  background: #ffffff;
+  background: #fff;
   padding: 16px;
   border: 1px solid #e0e0e0;
   border-radius: 10px;
@@ -38,6 +50,10 @@ input[type="text"] {
 .result h3 {
   margin: 0 0 8px;
   color: #333;
+}
+
+.result small {
+  color: #777;
 }
 
 .highlight {
