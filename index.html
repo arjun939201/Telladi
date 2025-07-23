@@ -16,15 +16,22 @@
     <section class="controls">
       <div class="input-group">
         <label for="searchInput">Search</label>
-        <input type="text" id="searchInput" placeholder="e.g., nudi, chaduvu, friend" />
+        <input type="text" id="searchInput" placeholder="e.g., nudi, chaduvu" />
+      </div>
+
+      <div class="input-group">
+        <label for="posFilter">Part of Speech</label>
+        <select id="posFilter">
+          <option value="all">All</option>
+          <option value="n.">Noun (n.)</option>
+          <option value="v.">Verb (v.)</option>
+          <option value="adj.">Adjective (adj.)</option>
+        </select>
       </div>
     </section>
 
     <section id="results" class="results"></section>
 
-    <footer>
-      <p>Made with ❤️ | Melimi Telugu | Native Words Only</p>
-    </footer>
   </div>
 
   <script src="script.js"></script>
