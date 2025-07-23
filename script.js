@@ -2,12 +2,11 @@ const dictionary = [
   {
     label: "n.",
     meaning: "language",
-    note: "[native word]",
+    note: "[native]",
     root: "nudi",
     scripts: {
       telugu: "నుడి",
-      iast: "nuḍi",
-      hk: "nudi"
+      iast: "nuḍi"
     }
   },
   {
@@ -17,8 +16,7 @@ const dictionary = [
     root: "telladi",
     scripts: {
       telugu: "తెల్లడి",
-      iast: "tellaḍi",
-      hk: "telladi"
+      iast: "tellaḍi"
     }
   },
   {
@@ -28,8 +26,7 @@ const dictionary = [
     root: "maatoli",
     scripts: {
       telugu: "మాటోలి",
-      iast: "māṭōli",
-      hk: "maatoli"
+      iast: "māṭōli"
     }
   },
   {
@@ -39,8 +36,7 @@ const dictionary = [
     root: "chaduvu",
     scripts: {
       telugu: "చదువు",
-      iast: "chaduvu",
-      hk: "chaduvu"
+      iast: "chaduvu"
     }
   },
   {
@@ -50,8 +46,7 @@ const dictionary = [
     root: "nestam",
     scripts: {
       telugu: "నేస్తం",
-      iast: "nēstaṁ",
-      hk: "nestam"
+      iast: "nēstaṁ"
     }
   },
   {
@@ -61,13 +56,10 @@ const dictionary = [
     root: "nikkam",
     scripts: {
       telugu: "నిక్కం",
-      iast: "nikkaṁ",
-      hk: "nikkam"
+      iast: "nikkaṁ"
     }
   }
 ];
-
-let currentScript = "tel"; // default = Telugu
 
 function highlightMatch(text, query) {
   if (!query) return text;
@@ -79,18 +71,10 @@ function matches(entry, query) {
   const q = query.toLowerCase();
   return (
     entry.root.toLowerCase().includes(q) ||
-    Object.values(entry.scripts).some(val => val.toLowerCase().includes(q)) ||
+    entry.scripts.iast.toLowerCase().includes(q) ||
+    entry.scripts.telugu.includes(q) ||
     entry.meaning.toLowerCase().includes(q)
   );
-}
-
-function transliterateFallback(root, targetScript) {
-  if (!root) return "—";
-  try {
-    return IndiTrans.convert(root, "hk", targetScript);
-  } catch {
-    return root;
-  }
 }
 
 function searchDictionary(query) {
@@ -119,20 +103,15 @@ function searchDictionary(query) {
   `;
 
   results.forEach(entry => {
-    const root = entry.root;
-    const translit = entry.scripts.iast || entry.scripts.hk || root;
+    const teluguWord = entry.scripts.telugu;
+    const transliteration = entry.scripts.iast;
     const label = entry.label || "";
     const note = entry.note ? `<span class="note">${entry.note}</span>` : "";
-    let scriptWord = entry.scripts[currentScript];
-
-    if (!scriptWord) {
-      scriptWord = transliterateFallback(root, currentScript);
-    }
 
     html += `
       <tr>
-        <td>${highlightMatch(scriptWord, query)}</td>
-        <td>${highlightMatch(translit, query)}</td>
+        <td>${highlightMatch(teluguWord, query)}</td>
+        <td>${highlightMatch(transliteration, query)}</td>
         <td>${label}</td>
         <td>${highlightMatch(entry.meaning, query)} ${note}</td>
       </tr>
@@ -145,10 +124,4 @@ function searchDictionary(query) {
 
 document.getElementById("searchInput").addEventListener("input", (e) => {
   searchDictionary(e.target.value.trim());
-});
-
-document.getElementById("scriptSelect").addEventListener("change", (e) => {
-  currentScript = e.target.value;
-  const query = document.getElementById("searchInput").value.trim();
-  searchDictionary(query);
 });
