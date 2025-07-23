@@ -1,109 +1,134 @@
-const dictionary = [
-  {
-    meaning: "Language",
-    phonetic: ["nudi", "bhasha"],
-    scripts: {
-      telugu: "నుడి",
-      devanagari: "नुडि",
-      kannada: "ನುಡಿ",
-      tamil: "நுடி",
-      malayalam: "നുടി",
-      bengali: "নুডি",
-      gujarati: "નુડી",
-      gurmukhi: "ਨੁਡੀ",
-      odia: "ନୁଡି",
-      iast: "nuḍi",
-      ascii: "nudi"
-    }
-  },
-  {
-    meaning: "Vocabulary",
-    phonetic: ["maatoli", "padakosha"],
-    scripts: {
-      telugu: "మాటోలి",
-      devanagari: "माटोली",
-      kannada: "ಮಾಟೋಲಿ",
-      tamil: "மாட்டோலி",
-      malayalam: "മാട്ടോളി",
-      bengali: "মাটোলি",
-      gujarati: "માટોલી",
-      gurmukhi: "ਮਾਟੋਲੀ",
-      odia: "ମାଟୋଲି",
-      iast: "māṭōli",
-      ascii: "maatoli"
-    }
-  },
-  {
-    meaning: "Friend",
-    phonetic: ["nesta", "mitra"],
-    scripts: {
-      telugu: "నేస్తం",
-      devanagari: "नेस्तं",
-      kannada: "ನೇಸ್ತಂ",
-      tamil: "நேஸ்தம்",
-      malayalam: "നേഷ്തം",
-      bengali: "নেস্তং",
-      gujarati: "નેસ્તં",
-      gurmukhi: "ਨੇਸਤੰ",
-      odia: "ନେସ୍ତଂ",
-      iast: "nēstaṁ",
-      ascii: "nestam"
-    }
-  }
-];
-
-let currentScript = "telugu";
-
-function highlightMatch(text, query) {
-  if (!query) return text;
-  const pattern = new RegExp(`(${query})`, "gi");
-  return text.replace(pattern, `<span class="highlight">$1</span>`);
+:root {
+  --bg: #f8f4ea;
+  --accent: #6d4c1e;
+  --card: #fffaf0;
+  --border: #d8cbb3;
 }
 
-function matches(entry, query) {
-  const q = query.toLowerCase();
-  return (
-    Object.values(entry.scripts).some(val => val.toLowerCase().includes(q)) ||
-    entry.meaning.toLowerCase().includes(q) ||
-    (entry.phonetic && entry.phonetic.some(p => p.toLowerCase().includes(q)))
-  );
+* {
+  box-sizing: border-box;
 }
 
-function render(entry, query) {
-  const scriptText = entry.scripts[currentScript] || entry.scripts.iast;
-  return `
-    <div class="result">
-      <h3>${highlightMatch(scriptText, query)}</h3>
-      <p><strong>Meaning:</strong> ${highlightMatch(entry.meaning, query)}</p>
-      <small>IAST: ${entry.scripts.iast} | ASCII: ${entry.scripts.ascii}</small>
-    </div>
-  `;
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: var(--bg);
+  color: #333;
 }
 
-function searchDictionary(query) {
-  const resultsDiv = document.getElementById("results");
-  resultsDiv.innerHTML = "";
-
-  if (!query) return;
-
-  const results = dictionary.filter(entry => matches(entry, query));
-
-  if (results.length === 0) {
-    resultsDiv.innerHTML = "<p>No results found.</p>";
-    return;
-  }
-
-  results.forEach(entry => {
-    resultsDiv.innerHTML += render(entry, query);
-  });
+.wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
-document.getElementById("searchInput").addEventListener("input", (e) => {
-  searchDictionary(e.target.value.trim());
-});
+header {
+  text-align: center;
+  margin-bottom: 20px;
+}
 
-document.getElementById("scriptSelect").addEventListener("change", (e) => {
-  currentScript = e.target.value;
-  const query = document.getElementById("searchInput").value.trim();
-  searchDictionary(query);
-});
+header h1 {
+  margin: 0;
+  font-size: 2em;
+  color: var(--accent);
+}
+
+header p {
+  color: #555;
+  font-size: 0.95em;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
+  background: var(--card);
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  margin-bottom: 20px;
+}
+
+.input-group {
+  flex: 1 1 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group label {
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+input[type="text"], select {
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #aaa;
+  border-radius: 6px;
+  width: 100%;
+}
+
+.results {
+  margin-top: 20px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.row {
+  display: flex;
+  border-top: 1px solid #e4d8c5;
+  padding: 12px;
+  align-items: center;
+}
+
+.row:first-child {
+  border-top: none;
+  background-color: #f1e6cd;
+  font-weight: bold;
+}
+
+.cell {
+  flex: 1;
+  padding: 4px 8px;
+}
+
+.cell.script {
+  font-size: 1.2em;
+  color: var(--accent);
+}
+
+.cell.translit {
+  font-family: "Noto Sans", sans-serif;
+  color: #444;
+}
+
+.cell.meaning {
+  font-style: italic;
+  color: #333;
+}
+
+.cell.label {
+  width: 60px;
+  font-weight: bold;
+  text-align: right;
+  color: #666;
+}
+
+.highlight {
+  background-color: yellow;
+  font-weight: bold;
+}
+
+footer {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 0.85em;
+  color: #888;
+}
