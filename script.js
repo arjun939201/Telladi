@@ -1,62 +1,82 @@
 const dictionary = [
   {
+    root: "nudi",
     label: "n.",
     meaning: "language",
     note: "[native]",
-    root: "nudi",
     scripts: {
       telugu: "నుడి",
       iast: "nuḍi"
     }
   },
   {
+    root: "telladi",
     label: "n.",
     meaning: "dictionary",
     note: "[word list]",
-    root: "telladi",
     scripts: {
       telugu: "తెల్లడి",
       iast: "tellaḍi"
     }
   },
   {
+    root: "maatoli",
     label: "n.",
     meaning: "vocabulary",
     note: "[collection of words]",
-    root: "maatoli",
     scripts: {
       telugu: "మాటోలి",
       iast: "māṭōli"
     }
   },
   {
+    root: "chaduvu",
     label: "n.",
     meaning: "education",
     note: "[learning process]",
-    root: "chaduvu",
     scripts: {
       telugu: "చదువు",
       iast: "chaduvu"
     }
   },
   {
+    root: "nestam",
     label: "n.",
     meaning: "friend",
     note: "[close person]",
-    root: "nestam",
     scripts: {
       telugu: "నేస్తం",
       iast: "nēstaṁ"
     }
   },
   {
+    root: "nikkam",
     label: "n.",
     meaning: "truth",
     note: "[reality]",
-    root: "nikkam",
     scripts: {
       telugu: "నిక్కం",
       iast: "nikkaṁ"
+    }
+  },
+  {
+    root: "premincu",
+    label: "v.",
+    meaning: "to love",
+    note: "[verb]",
+    scripts: {
+      telugu: "ప్రేమించు",
+      iast: "premincu"
+    }
+  },
+  {
+    root: "andam",
+    label: "adj.",
+    meaning: "beautiful",
+    note: "[quality]",
+    scripts: {
+      telugu: "అందం",
+      iast: "andam"
     }
   }
 ];
@@ -81,9 +101,14 @@ function searchDictionary(query) {
   const resultsDiv = document.getElementById("results");
   resultsDiv.innerHTML = "";
 
-  if (!query) return;
+  const selectedPOS = document.getElementById("posFilter").value;
 
-  const results = dictionary.filter(entry => matches(entry, query));
+  const results = dictionary.filter(entry => {
+    const match = matches(entry, query);
+    const posMatch = selectedPOS === "all" || entry.label === selectedPOS;
+    return match && posMatch;
+  });
+
   if (results.length === 0) {
     resultsDiv.innerHTML = "<p>No results found.</p>";
     return;
@@ -101,21 +126,22 @@ function searchDictionary(query) {
       </thead>
       <tbody>
   `;
-results.forEach(entry => {
-  const teluguWord = entry.scripts.telugu || entry.root; // ✅ fallback to root
-  const transliteration = entry.scripts.iast;
-  const label = entry.label || "";
-  const note = entry.note ? `<span class="note">${entry.note}</span>` : "";
 
-  html += `
-    <tr>
-      <td>${highlightMatch(teluguWord, query)}</td>
-      <td>${highlightMatch(transliteration, query)}</td>
-      <td>${label}</td>
-      <td>${highlightMatch(entry.meaning, query)} ${note}</td>
-    </tr>
-  `;
-});
+  results.forEach(entry => {
+    const teluguWord = entry.scripts.telugu || entry.root;
+    const transliteration = entry.scripts.iast;
+    const label = entry.label || "";
+    const note = entry.note ? `<span class="note">${entry.note}</span>` : "";
+
+    html += `
+      <tr>
+        <td>${highlightMatch(teluguWord, query)}</td>
+        <td>${highlightMatch(transliteration, query)}</td>
+        <td>${label}</td>
+        <td>${highlightMatch(entry.meaning, query)} ${note}</td>
+      </tr>
+    `;
+  });
 
   html += "</tbody></table>";
   resultsDiv.innerHTML = html;
@@ -123,4 +149,9 @@ results.forEach(entry => {
 
 document.getElementById("searchInput").addEventListener("input", (e) => {
   searchDictionary(e.target.value.trim());
+});
+
+document.getElementById("posFilter").addEventListener("change", () => {
+  const query = document.getElementById("searchInput").value.trim();
+  searchDictionary(query);
 });
