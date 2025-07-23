@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+  <meta charset="UTF-8" />
+  <title>📘 Telladi - Telugu Dictionary</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="header">
+    <h1>📘 Telladi</h1>
+    <input type="text" id="searchBox" placeholder="Search Telugu/English..." oninput="liveSearch()" />
+  </div>
+
+  <div class="results" id="resultsContainer"></div>
+
+  <div class="insert-section">
+    <h3>Add New Word</h3>
+    <input type="text" id="newWord" placeholder="Telugu Word" />
+    <input type="text" id="newMeaning" placeholder="Meaning" />
+    <textarea id="newComment" placeholder="Comment (optional)"></textarea>
+    <button onclick="addWord()">Add</button>
+    <p id="insertMsg"></p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
