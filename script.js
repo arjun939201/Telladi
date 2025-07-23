@@ -138,8 +138,8 @@ function searchDictionary(query) {
       <thead>
         <tr>
           <th>Word</th>
-          <th>Type</th>
           <th>Transliteration</th>
+          <th>Type</th>
           <th>Meaning</th>
         </tr>
       </thead>
@@ -156,8 +156,8 @@ function searchDictionary(query) {
     html += `
       <tr>
         <td>${highlightMatch(scriptText, query)}</td>
-        <td>${label}</td>
         <td>${highlightMatch(translit, query)}</td>
+        <td>${label}</td>
         <td>${meaning}${note}</td>
       </tr>
     `;
@@ -166,13 +166,3 @@ function searchDictionary(query) {
   html += "</tbody></table>";
   resultsDiv.innerHTML = html;
 }
-
-document.getElementById("searchInput").addEventListener("input", (e) => {
-  searchDictionary(e.target.value.trim());
-});
-
-document.getElementById("scriptSelect").addEventListener("change", (e) => {
-  currentScript = e.target.value;
-  const query = document.getElementById("searchInput").value.trim();
-  searchDictionary(query);
-});
