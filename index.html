@@ -3,20 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🪔 Telladi - Telugu Dictionary</title>
+  <title>తెల్లడి | Telugu Dictionary</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="header">
-    <h1>🪔 Telladi</h1>
-    <p>A Native Telugu Dictionary</p>
-    <input type="text" id="searchBox" placeholder="Search Telugu or English word..." oninput="liveSearch()" />
+  <div class="container">
+    <h1>📚 తెల్లడి Telugu Dictionary</h1>
+    <input type="text" id="searchInput" placeholder="Search Telugu or English..." />
+    <div id="results"></div>
   </div>
-
-  <div class="results" id="resultsContainer">
-    <p class="tip">Start typing to see results...</p>
-  </div>
-
   <script src="script.js"></script>
 </body>
 </html>
