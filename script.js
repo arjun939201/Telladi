@@ -1,56 +1,67 @@
 const dictionary = [
   {
-    label: "n.", // noun
-    meaning: "Language",
-    phonetic: ["nudi", "bhasha"],
+    label: "f.",
+    meaning: "similarity",
+    note: "[comparison]",
     scripts: {
-      telugu: "నుడి",
-      devanagari: "नुडि",
-      kannada: "ನುಡಿ",
-      tamil: "நுடி",
-      malayalam: "നുടി",
-      bengali: "নুডি",
-      gujarati: "નુડી",
-      gurmukhi: "ਨੁਡੀ",
-      odia: "ନୁଡି",
-      iast: "nuḍi",
-      ascii: "nudi"
+      telugu: "ఉపమా",
+      devanagari: "उपमा",
+      kannada: "ಉಪಮಾ",
+      tamil: "உபமா",
+      iast: "upamā",
+      ascii: "upama"
+    }
+  },
+  {
+    label: "adj.",
+    meaning: "belligerent",
+    note: "[engaged in war]",
+    scripts: {
+      telugu: "యుద్ధరతి",
+      devanagari: "युद्धरति",
+      kannada: "ಯುದ್ಧರತಿ",
+      tamil: "யுத்தரதி",
+      iast: "yuddharati",
+      ascii: "yuddharati"
+    }
+  },
+  {
+    label: "m.",
+    meaning: "bench",
+    note: "[Law, judges collectively]",
+    scripts: {
+      telugu: "న్యాయాధీశ-గణం",
+      devanagari: "न्यायाधीश-गण",
+      kannada: "ನ್ಯಾಯಾಧೀಶ-ಗಣ",
+      tamil: "நியாயாதீச-கணம்",
+      iast: "nyāyādhīśa-gaṇa",
+      ascii: "nyAyAdhIsha-gaNa"
     }
   },
   {
     label: "n.",
-    meaning: "Vocabulary",
-    phonetic: ["maatoli", "padakosha"],
+    meaning: "tyranny",
+    note: "[pol.]",
     scripts: {
-      telugu: "మాటోలి",
-      devanagari: "माटोली",
-      kannada: "ಮಾಟೋಲಿ",
-      tamil: "மாட்டோலி",
-      malayalam: "മാട്ടോളി",
-      bengali: "মাটোলি",
-      gujarati: "માટોલી",
-      gurmukhi: "ਮਾਟੋਲੀ",
-      odia: "ମାଟୋଲି",
-      iast: "māṭōli",
-      ascii: "maatoli"
+      telugu: "మ్లేచ్ఛిత",
+      devanagari: "म्लेच्छित",
+      kannada: "ಮ್ಲೆಚ್ಛಿತ",
+      tamil: "ம்லெச்சித",
+      iast: "mlecchita",
+      ascii: "mlecchita"
     }
   },
   {
     label: "n.",
-    meaning: "Friend",
-    phonetic: ["nesta", "mitra"],
+    meaning: "archaeology",
+    note: "[brit.]",
     scripts: {
-      telugu: "నేస్తం",
-      devanagari: "नेस्तं",
-      kannada: "ನೇಸ್ತಂ",
-      tamil: "நேஸ்தம்",
-      malayalam: "നേഷ്തം",
-      bengali: "নেস্তং",
-      gujarati: "નેસ્તં",
-      gurmukhi: "ਨੇਸਤੰ",
-      odia: "ନେସ୍ତଂ",
-      iast: "nēstaṁ",
-      ascii: "nestam"
+      telugu: "పురాతత్వశాస్త్రం",
+      devanagari: "पुरातत्वशास्त्र",
+      kannada: "ಪುರಾತತ್ವಶಾಸ್ತ್ರ",
+      tamil: "புராதத்துவசாஸ்திரம்",
+      iast: "purātattvaśāstra",
+      ascii: "purAtatvashAstra"
     }
   }
 ];
@@ -67,25 +78,8 @@ function matches(entry, query) {
   const q = query.toLowerCase();
   return (
     Object.values(entry.scripts).some(val => val.toLowerCase().includes(q)) ||
-    entry.meaning.toLowerCase().includes(q) ||
-    (entry.phonetic && entry.phonetic.some(p => p.toLowerCase().includes(q)))
+    entry.meaning.toLowerCase().includes(q)
   );
-}
-
-function render(entry, query) {
-  const scriptText = entry.scripts[currentScript] || entry.scripts.iast;
-  const translitText = entry.scripts.iast || entry.scripts.ascii;
-  const meaningText = entry.meaning;
-  const label = entry.label || "";
-
-  return `
-    <div class="row">
-      <div class="cell script">${highlightMatch(scriptText, query)}</div>
-      <div class="cell translit">${highlightMatch(translitText, query)}</div>
-      <div class="cell meaning">${highlightMatch(meaningText, query)}</div>
-      <div class="cell label">${label}</div>
-    </div>
-  `;
 }
 
 function searchDictionary(query) {
@@ -95,26 +89,43 @@ function searchDictionary(query) {
   if (!query) return;
 
   const results = dictionary.filter(entry => matches(entry, query));
-
   if (results.length === 0) {
     resultsDiv.innerHTML = "<p>No results found.</p>";
     return;
   }
 
-  let output = `<div class="table">
-    <div class="row">
-      <div class="cell">Script</div>
-      <div class="cell">Transliteration</div>
-      <div class="cell">Meaning</div>
-      <div class="cell label">Type</div>
-    </div>`;
+  let html = `
+    <table>
+      <thead>
+        <tr>
+          <th>Word</th>
+          <th>Type</th>
+          <th>Transliteration</th>
+          <th>Meaning</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
 
   results.forEach(entry => {
-    output += render(entry, query);
+    const scriptText = entry.scripts[currentScript] || entry.scripts.iast;
+    const translit = entry.scripts.iast || entry.scripts.ascii;
+    const meaning = highlightMatch(entry.meaning, query);
+    const label = entry.label || "";
+    const note = entry.note ? ` <span class="note">${entry.note}</span>` : "";
+
+    html += `
+      <tr>
+        <td>${highlightMatch(scriptText, query)}</td>
+        <td>${label}</td>
+        <td>${highlightMatch(translit, query)}</td>
+        <td>${meaning}${note}</td>
+      </tr>
+    `;
   });
 
-  output += "</div>";
-  resultsDiv.innerHTML = output;
+  html += "</tbody></table>";
+  resultsDiv.innerHTML = html;
 }
 
 document.getElementById("searchInput").addEventListener("input", (e) => {
