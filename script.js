@@ -3,65 +3,68 @@ const dictionary = {
     meaning: "Language",
     pos: "noun",
     example: "తెలుగు是一種 భాష.",
-    synonyms: ["నుడి", "పార్లరు"],
-    comment: "A medium of communication."
+    synonyms: ["నుడి", "పార్లరు"]
+  },
+  "చదువు": {
+    meaning: "Education",
+    pos: "noun",
+    example: "చదువు జీవితాన్ని మెరుగుపరుస్తుంది.",
+    synonyms: ["పాఠం", "శిక్షణ"]
   },
   "నుడి": {
     meaning: "Speech",
     pos: "noun",
     example: "ఆయన నుడి శ్రావ్యంగా ఉంది.",
-    synonyms: ["మాట", "పాట"],
-    comment: "Spoken expression or utterance."
+    synonyms: ["పాట", "మాట"]
   },
-  "తెలుగు": {
-    meaning: "Telugu (language)",
-    pos: "proper noun",
-    example: "తెలుగు ద్రావిడ భాషల కుటుంబానికి చెందినది.",
-    synonyms: ["ఆంధ్ర", "తెలింగ"],
-    comment: "Native language of Andhra Pradesh and Telangana."
+  "మాట": {
+    meaning: "Word",
+    pos: "noun",
+    example: "ప్రతి మాటకీ విలువ ఉంది.",
+    synonyms: ["పదం", "వాక్యం"]
   }
 };
 
-function highlight(text, term) {
-  const re = new RegExp(`(${term})`, 'gi');
-  return text.replace(re, '<mark>$1</mark>');
-}
-
 function liveSearch() {
-  const term = document.getElementById('searchBox').value.trim().toLowerCase();
+  const input = document.getElementById('searchBox').value.trim().toLowerCase();
   const container = document.getElementById('resultsContainer');
   container.innerHTML = '';
 
-  if (!term) {
-    container.innerHTML = '<p class="tip">🔍 Type a word above to begin searching.</p>';
+  if (input === "") {
+    container.innerHTML = '<p class="tip">Start typing to see results...</p>';
     return;
   }
 
-  const results = Object.entries(dictionary).filter(([word, data]) =>
-    word.toLowerCase().includes(term) ||
-    data.meaning.toLowerCase().includes(term) ||
-    data.comment?.toLowerCase().includes(term) ||
-    data.synonyms?.some(s => s.toLowerCase().includes(term)) ||
-    data.example?.toLowerCase().includes(term)
-  );
+  const results = [];
+
+  for (const [word, entry] of Object.entries(dictionary)) {
+    const foundInKey = word.toLowerCase().includes(input);
+    const foundInMeaning = entry.meaning.toLowerCase().includes(input);
+    const foundInExample = entry.example.toLowerCase().includes(input);
+    const foundInSynonyms = entry.synonyms.some(syn => syn.toLowerCase().includes(input));
+
+    if (foundInKey || foundInMeaning || foundInExample || foundInSynonyms) {
+      results.push({ word, entry });
+    }
+  }
 
   if (results.length === 0) {
-    container.innerHTML = `<p class="tip">❌ No match found for "<strong>${term}</strong>"</p>`;
+    container.innerHTML = `<p class="tip">No results found for "${input}"</p>`;
     return;
   }
 
-  results.forEach(([word, data]) => {
+  results.forEach(({ word, entry }) => {
     const card = document.createElement('div');
     card.className = 'word-card';
 
     card.innerHTML = `
-      <h2>${highlight(word, term)}</h2>
-      <p class="pos"><strong>Part of speech:</strong> ${data.pos}</p>
-      <p><strong>Meaning:</strong> ${highlight(data.meaning, term)}</p>
-      <p class="example">📘 <em>${highlight(data.example, term)}</em></p>
-      <p class="synonyms">🔁 <strong>Synonyms:</strong> ${data.synonyms.map(s => highlight(s, term)).join(", ")}</p>
-      <p class="comment">💬 <strong>Comment:</strong> ${highlight(data.comment, term)}</p>
+      <h2>${word}</h2>
+      <p class="pos">${entry.pos}</p>
+      <p><strong>Meaning:</strong> ${entry.meaning}</p>
+      <p class="example">📘 <em>${entry.example}</em></p>
+      <p class="synonyms">🔁 <strong>Synonyms:</strong> ${entry.synonyms.join(", ")}</p>
     `;
+
     container.appendChild(card);
   });
 }
