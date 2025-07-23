@@ -38,9 +38,9 @@ function liveSearch() {
   const results = Object.entries(dictionary).filter(([word, entry]) => {
     return (
       word.toLowerCase().includes(input) ||
-      entry.meaning.toLowerCase().includes(input) ||
-      entry.example.toLowerCase().includes(input) ||
-      entry.synonyms.some(syn => syn.toLowerCase().includes(input))
+      (entry.meaning && entry.meaning.toLowerCase().includes(input)) ||
+      (entry.example && entry.example.toLowerCase().includes(input)) ||
+      (entry.synonyms && entry.synonyms.some(syn => syn.toLowerCase().includes(input)))
     );
   });
 
