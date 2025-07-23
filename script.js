@@ -1,67 +1,106 @@
 const dictionary = [
   {
-    label: "f.",
-    meaning: "similarity",
-    note: "[comparison]",
+    label: "n.",
+    meaning: "language",
+    note: "[native word]",
     scripts: {
-      telugu: "ఉపమా",
-      devanagari: "उपमा",
-      kannada: "ಉಪಮಾ",
-      tamil: "உபமா",
-      iast: "upamā",
-      ascii: "upama"
-    }
-  },
-  {
-    label: "adj.",
-    meaning: "belligerent",
-    note: "[engaged in war]",
-    scripts: {
-      telugu: "యుద్ధరతి",
-      devanagari: "युद्धरति",
-      kannada: "ಯುದ್ಧರತಿ",
-      tamil: "யுத்தரதி",
-      iast: "yuddharati",
-      ascii: "yuddharati"
-    }
-  },
-  {
-    label: "m.",
-    meaning: "bench",
-    note: "[Law, judges collectively]",
-    scripts: {
-      telugu: "న్యాయాధీశ-గణం",
-      devanagari: "न्यायाधीश-गण",
-      kannada: "ನ್ಯಾಯಾಧೀಶ-ಗಣ",
-      tamil: "நியாயாதீச-கணம்",
-      iast: "nyāyādhīśa-gaṇa",
-      ascii: "nyAyAdhIsha-gaNa"
+      telugu: "నుడి",
+      devanagari: "नुडि",
+      kannada: "ನುಡಿ",
+      tamil: "நுடி",
+      iast: "nuḍi",
+      ascii: "nudi"
     }
   },
   {
     label: "n.",
-    meaning: "tyranny",
-    note: "[pol.]",
+    meaning: "dictionary",
+    note: "[word list]",
     scripts: {
-      telugu: "మ్లేచ్ఛిత",
-      devanagari: "म्लेच्छित",
-      kannada: "ಮ್ಲೆಚ್ಛಿತ",
-      tamil: "ம்லெச்சித",
-      iast: "mlecchita",
-      ascii: "mlecchita"
+      telugu: "తెల్లడి",
+      devanagari: "तॆल्लडि",
+      kannada: "ತೆಲ್ಲಡಿ",
+      tamil: "தெல்லடி",
+      iast: "tellaḍi",
+      ascii: "telladi"
     }
   },
   {
     label: "n.",
-    meaning: "archaeology",
-    note: "[brit.]",
+    meaning: "vocabulary",
+    note: "[collection of words]",
     scripts: {
-      telugu: "పురాతత్వశాస్త్రం",
-      devanagari: "पुरातत्वशास्त्र",
-      kannada: "ಪುರಾತತ್ವಶಾಸ್ತ್ರ",
-      tamil: "புராதத்துவசாஸ்திரம்",
-      iast: "purātattvaśāstra",
-      ascii: "purAtatvashAstra"
+      telugu: "మాటోలి",
+      devanagari: "माटोली",
+      kannada: "ಮಾಟೋಲಿ",
+      tamil: "மாட்டோலி",
+      iast: "māṭōli",
+      ascii: "maatoli"
+    }
+  },
+  {
+    label: "n.",
+    meaning: "education",
+    note: "[learning process]",
+    scripts: {
+      telugu: "చదువు",
+      devanagari: "चदुवु",
+      kannada: "ಚದುವು",
+      tamil: "சதுவு",
+      iast: "chaduvu",
+      ascii: "chaduvu"
+    }
+  },
+  {
+    label: "n.",
+    meaning: "friend",
+    note: "[native term]",
+    scripts: {
+      telugu: "నేస్తం",
+      devanagari: "नेस्तं",
+      kannada: "ನೇಸ್ತಂ",
+      tamil: "நேஸ்தம்",
+      iast: "nēstaṁ",
+      ascii: "nestam"
+    }
+  },
+  {
+    label: "n.",
+    meaning: "love",
+    note: "[deep affection]",
+    scripts: {
+      telugu: "కూర్మి",
+      devanagari: "कूर्मि",
+      kannada: "ಕೂರ್ಮಿ",
+      tamil: "கூர்மி",
+      iast: "kūrmi",
+      ascii: "kurmi"
+    }
+  },
+  {
+    label: "n.",
+    meaning: "truth",
+    note: "[reality]",
+    scripts: {
+      telugu: "నిక్కం",
+      devanagari: "निक्कं",
+      kannada: "ನಿಕ್ಕಂ",
+      tamil: "நிக்கம்",
+      iast: "nikkaṁ",
+      ascii: "nikkam"
+    }
+  },
+  {
+    label: "n.",
+    meaning: "protection",
+    note: "[guarding]",
+    scripts: {
+      telugu: "కాపుదల",
+      devanagari: "कापुदल",
+      kannada: "ಕಾಪುದಲ",
+      tamil: "காபுதல",
+      iast: "kāpudala",
+      ascii: "kapudala"
     }
   }
 ];
