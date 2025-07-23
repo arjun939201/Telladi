@@ -1,0 +1,2 @@
+# Telladi
+Telugu dictionary
