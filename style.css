@@ -52,7 +52,7 @@ header p {
   font-size: 0.9em;
 }
 
-input[type="text"] {
+input[type="text"], select {
   padding: 6px 8px;
   font-size: 0.9em;
   border: 1px solid #ccc;
