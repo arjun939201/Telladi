@@ -1,5 +1,6 @@
 const dictionary = [
   {
+    label: "n.", // noun
     meaning: "Language",
     phonetic: ["nudi", "bhasha"],
     scripts: {
@@ -17,6 +18,7 @@ const dictionary = [
     }
   },
   {
+    label: "n.",
     meaning: "Vocabulary",
     phonetic: ["maatoli", "padakosha"],
     scripts: {
@@ -34,6 +36,7 @@ const dictionary = [
     }
   },
   {
+    label: "n.",
     meaning: "Friend",
     phonetic: ["nesta", "mitra"],
     scripts: {
@@ -71,11 +74,16 @@ function matches(entry, query) {
 
 function render(entry, query) {
   const scriptText = entry.scripts[currentScript] || entry.scripts.iast;
+  const translitText = entry.scripts.iast || entry.scripts.ascii;
+  const meaningText = entry.meaning;
+  const label = entry.label || "";
+
   return `
-    <div class="result">
-      <h3>${highlightMatch(scriptText, query)}</h3>
-      <p><strong>Meaning:</strong> ${highlightMatch(entry.meaning, query)}</p>
-      <small>IAST: ${entry.scripts.iast} | ASCII: ${entry.scripts.ascii}</small>
+    <div class="row">
+      <div class="cell script">${highlightMatch(scriptText, query)}</div>
+      <div class="cell translit">${highlightMatch(translitText, query)}</div>
+      <div class="cell meaning">${highlightMatch(meaningText, query)}</div>
+      <div class="cell label">${label}</div>
     </div>
   `;
 }
@@ -93,9 +101,20 @@ function searchDictionary(query) {
     return;
   }
 
+  let output = `<div class="table">
+    <div class="row">
+      <div class="cell">Script</div>
+      <div class="cell">Transliteration</div>
+      <div class="cell">Meaning</div>
+      <div class="cell label">Type</div>
+    </div>`;
+
   results.forEach(entry => {
-    resultsDiv.innerHTML += render(entry, query);
+    output += render(entry, query);
   });
+
+  output += "</div>";
+  resultsDiv.innerHTML = output;
 }
 
 document.getElementById("searchInput").addEventListener("input", (e) => {
