@@ -58,6 +58,58 @@ body {
   font-size: 0.95em;
 }
 
+.word-card .comment {
+  margin-top: 8px;
+  font-size: 0.95em;
+  color: #555;
+}
+
+mark {
+  background-color: yellow;
+  color: black;
+}
+
+.insert-section {
+  padding: 20px;
+  background: #fff;
+  border-top: 1px solid #ccc;
+  margin: 30px auto;
+  max-width: 700px;
+  border-radius: 12px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.insert-section input,
+.insert-section textarea {
+  display: block;
+  width: 90%;
+  margin: 10px auto;
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.insert-section button {
+  background-color: #443e8e;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1em;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.insert-section button:hover {
+  background-color: #372e7b;
+}
+
+.insert-msg {
+  text-align: center;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
 .tip {
   color: #999;
   text-align: center;
