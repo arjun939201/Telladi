@@ -52,7 +52,7 @@ header p {
   font-size: 0.9em;
 }
 
-input[type="text"], select {
+input[type="text"] {
   padding: 6px 8px;
   font-size: 0.9em;
   border: 1px solid #ccc;
@@ -67,7 +67,8 @@ input[type="text"], select {
   font-size: 0.88em;
 }
 
-.results th, .results td {
+.results th,
+.results td {
   border: 1px solid #e0d9b5;
   padding: 6px 10px;
   text-align: left;
