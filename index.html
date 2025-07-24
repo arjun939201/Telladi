@@ -2,31 +2,43 @@
 <html lang="te">
 <head>
   <meta charset="UTF-8" />
-  <title>తెల్లడి | Melimi Telugu Dictionary</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>తెల్లడి | Telugu Dictionary</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
+  <div class="wrapper">
     <header>
-      <h1>📘 తెల్లడి | Melimi Telugu Dictionary</h1>
-      <p>Explore the beauty of native Telugu vocabulary, meanings, and grammar.</p>
+      <h1>📘 తెల్లడి Telugu Dictionary</h1>
+      <p>A multi-script native word dictionary</p>
     </header>
 
-    <main>
-      <div class="search-bar">
-        <input type="text" id="searchInput" placeholder="Search Telugu word, transliteration or meaning..." />
+    <section class="controls">
+      <div class="input-group">
+        <label for="searchInput">Search</label>
+        <input type="text" id="searchInput" placeholder="Search..." />
       </div>
 
-      <section id="results" class="results-section"></section>
-    </main>
+      <div class="input-group">
+        <label for="scriptSelect">Display Script</label>
+        <select id="scriptSelect">
+          <option value="telugu">Telugu</option>
+          <option value="devanagari">Devanagari</option>
+          <option value="kannada">Kannada</option>
+          <option value="tamil">Tamil</option>
+          <option value="iast">IAST</option>
+          <option value="ascii">ASCII</option>
+        </select>
+      </div>
+    </section>
+
+    <section id="results" class="results"></section>
 
     <footer>
-      &copy; 2025 Melimi Telugu. Inspired by Oxford & Cambridge style lexicons.
+      <p>Version 1.0 | Inspired by Sanskrit Dictionary UI</p>
     </footer>
   </div>
 
-  <script src="dictionary.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
