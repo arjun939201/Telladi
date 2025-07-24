@@ -1,45 +1,33 @@
-<!DOCTYPE html>
-<html lang="te">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>తెల్లడి | Telugu Dictionary</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <div class="wrapper">
-    <header>
-      <h1>📘 తెల్లడి Telugu Dictionary</h1>
-      <p>A multi-script native word dictionary</p>
-    </header>
+<!DOCTYPE html>  <html lang="te">  
+<head>  
+  <meta charset="UTF-8" />  
+  <title>తెల్లడి | Melimi Telugu Dictionary</title>  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />  
+  <link rel="stylesheet" href="style.css" />  
+</head>  
+<body>  
+  <div class="wrapper">  
+    <header>  
+      <h1>📘 తెల్లడి | Melimi Telugu Dictionary</h1>  
+      <p>Search native Telugu words with transliteration and meaning</p>  
+    </header>  <section class="controls">  
+  <div class="input-group">  
+    <label for="searchInput">Search</label>  
+    <input type="text" id="searchInput" placeholder="e.g., nudi, chaduvu" />  
+  </div>  
 
-    <section class="controls">
-      <div class="input-group">
-        <label for="searchInput">Search</label>
-        <input type="text" id="searchInput" placeholder="Search..." />
-      </div>
+  <div class="input-group">  
+    <label for="posFilter">Part of Speech</label>  
+    <select id="posFilter">  
+      <option value="all">All</option>  
+      <option value="n.">Noun (n.)</option>  
+      <option value="v.">Verb (v.)</option>  
+      <option value="adj.">Adjective (adj.)</option>  
+    </select>  
+  </div>  
+</section>  
 
-      <div class="input-group">
-        <label for="scriptSelect">Display Script</label>
-        <select id="scriptSelect">
-          <option value="telugu">Telugu</option>
-          <option value="devanagari">Devanagari</option>
-          <option value="kannada">Kannada</option>
-          <option value="tamil">Tamil</option>
-          <option value="iast">IAST</option>
-          <option value="ascii">ASCII</option>
-        </select>
-      </div>
-    </section>
+<section id="results" class="results"></section>
 
-    <section id="results" class="results"></section>
-
-    <footer>
-      <p>Version 1.0 | Inspired by Sanskrit Dictionary UI</p>
-    </footer>
-  </div>
-
-  <script src="dictionary.js"></script>
-  <script src="script.js"></script>
-</body>
-</html>
+  </div>    <script src="script.js"></script>    <script src="dictionary.js"></script>  </body>  
+</html>  
