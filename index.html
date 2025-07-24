@@ -7,20 +7,23 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="wrapper">
+  <div class="container">
     <header>
       <h1>📘 తెల్లడి | Melimi Telugu Dictionary</h1>
-      <p>Search native Telugu words with transliteration and meaning</p>
+      <p>Explore the beauty of native Telugu vocabulary, meanings, and grammar.</p>
     </header>
 
-    <section class="controls">
-      <div class="input-group">
-        <label for="searchInput">Search</label>
-        <input type="text" id="searchInput" placeholder="e.g., nudi, నుడి, language" />
+    <main>
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search Telugu word, transliteration or meaning..." />
       </div>
-    </section>
 
-    <section id="results" class="results"></section>
+      <section id="results" class="results-section"></section>
+    </main>
+
+    <footer>
+      &copy; 2025 Melimi Telugu. Inspired by Oxford & Cambridge style lexicons.
+    </footer>
   </div>
 
   <script src="dictionary.js"></script>
