@@ -1442,4 +1442,4 @@ const dictionary = [
       iast: "dācu"
     }
   }
-  };
+  ];
