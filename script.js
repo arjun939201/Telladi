@@ -18,13 +18,7 @@ function searchDictionary(query) {
   const resultsDiv = document.getElementById("results");
   resultsDiv.innerHTML = "";
 
-  const selectedPOS = document.getElementById("posFilter").value;
-
-  const results = dictionary.filter(entry => {
-    const match = matches(entry, query);
-    const posMatch = selectedPOS === "all" || entry.label === selectedPOS;
-    return match && posMatch;
-  });
+  const results = dictionary.filter(entry => matches(entry, query));
 
   if (results.length === 0) {
     resultsDiv.innerHTML = "<p>No results found.</p>";
@@ -68,7 +62,5 @@ document.getElementById("searchInput").addEventListener("input", (e) => {
   searchDictionary(e.target.value.trim());
 });
 
-document.getElementById("posFilter").addEventListener("change", () => {
-  const query = document.getElementById("searchInput").value.trim();
-  searchDictionary(query);
-});
+// Show all on initial load
+searchDictionary("");
