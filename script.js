@@ -1,70 +1,70 @@
-// Highlight matching text
-function highlightMatch(text, query) {
-  if (!query) return text;
-  const pattern = new RegExp(`(${query})`, "gi");
-  return text.replace(pattern, `<span class="highlight">$1</span>`);
-}
+// Wait for DOM to load
+document.addEventListener("DOMContentLoaded", () => {
+  const searchInput = document.getElementById("searchInput");
+  const resultsContainer = document.getElementById("results");
 
-// Check if entry matches search query
-function matches(entry, query) {
-  const q = query.toLowerCase();
-  return (
-    entry.root.toLowerCase().includes(q) ||
-    (entry.scripts.iast && entry.scripts.iast.toLowerCase().includes(q)) ||
-    (entry.scripts.telugu && entry.scripts.telugu.includes(q)) ||
-    entry.meaning.toLowerCase().includes(q)
-  );
-}
-
-// Main search function
-function searchDictionary(query) {
-  const resultsDiv = document.getElementById("results");
-  resultsDiv.innerHTML = "";
-
-  const results = dictionary.filter(entry => matches(entry, query));
-
-  if (results.length === 0) {
-    resultsDiv.innerHTML = "<p>No results found.</p>";
-    return;
+  // Highlight matched text
+  function highlightMatch(text, query) {
+    if (!query) return text;
+    const pattern = new RegExp(`(${query})`, "gi");
+    return text.replace(pattern, `<span class="highlight">$1</span>`);
   }
 
-  let html = `
-    <table>
-      <thead>
-        <tr>
-          <th>Word</th>
-          <th>Transliteration</th>
-          <th>Type</th>
-          <th>Meaning</th>
-        </tr>
-      </thead>
-      <tbody>
-  `;
+  // Render matched entries
+  function renderResults(filtered) {
+    if (filtered.length === 0) {
+      resultsContainer.innerHTML = "<p>No matches found.</p>";
+      return;
+    }
 
-  results.forEach(entry => {
-    const teluguWord = entry.scripts.telugu || entry.root;
-    const transliteration = entry.scripts.iast || entry.root;
-    const label = entry.label || "";
-    const note = entry.note ? `<span class="note">${entry.note}</span>` : "";
-
-    html += `
-      <tr>
-        <td>${highlightMatch(teluguWord, query)}</td>
-        <td>${highlightMatch(transliteration, query)}</td>
-        <td>${label}</td>
-        <td>${highlightMatch(entry.meaning, query)} ${note}</td>
-      </tr>
+    let html = `
+      <table>
+        <thead>
+          <tr>
+            <th>Telugu</th>
+            <th>Root</th>
+            <th>IAST</th>
+            <th>Meaning</th>
+            <th>Note</th>
+          </tr>
+        </thead>
+        <tbody>
     `;
+
+    filtered.forEach(entry => {
+      html += `
+        <tr>
+          <td>${highlightMatch(entry.scripts.telugu, searchInput.value)}</td>
+          <td>${highlightMatch(entry.root, searchInput.value)}</td>
+          <td>${highlightMatch(entry.scripts.iast, searchInput.value)}</td>
+          <td>${highlightMatch(entry.meaning, searchInput.value)}</td>
+          <td><span class="note">${entry.note || ""}</span></td>
+        </tr>
+      `;
+    });
+
+    html += `</tbody></table>`;
+    resultsContainer.innerHTML = html;
+  }
+
+  // Filter logic
+  function filterEntries(query) {
+    const q = query.toLowerCase();
+    return dictionary.filter(entry =>
+      entry.root.toLowerCase().includes(q) ||
+      entry.meaning.toLowerCase().includes(q) ||
+      entry.scripts.telugu.includes(q) ||
+      entry.scripts.iast.toLowerCase().includes(q)
+    );
+  }
+
+  // Initial load
+  renderResults(dictionary);
+
+  // Event listener for input
+  searchInput.addEventListener("input", () => {
+    const query = searchInput.value.trim();
+    const filtered = filterEntries(query);
+    renderResults(filtered);
   });
-
-  html += "</tbody></table>";
-  resultsDiv.innerHTML = html;
-}
-
-// On input
-document.getElementById("searchInput").addEventListener("input", (e) => {
-  searchDictionary(e.target.value.trim());
 });
-
-// Show all on load
-searchDictionary("");
