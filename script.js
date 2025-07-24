@@ -1,70 +1,66 @@
-// Wait for DOM to load
-document.addEventListener("DOMContentLoaded", () => {
-  const searchInput = document.getElementById("searchInput");
-  const resultsContainer = document.getElementById("results");
 
-  // Highlight matched text
-  function highlightMatch(text, query) {
-    if (!query) return text;
-    const pattern = new RegExp(`(${query})`, "gi");
-    return text.replace(pattern, `<span class="highlight">$1</span>`);
-  }
+function highlightMatch(text, query) {
+if (!query) return text;
+const pattern = new RegExp((${query}), "gi");
+return text.replace(pattern, <span class="highlight">$1</span>);
+}
 
-  // Render matched entries
-  function renderResults(filtered) {
-    if (filtered.length === 0) {
-      resultsContainer.innerHTML = "<p>No matches found.</p>";
-      return;
-    }
+function matches(entry, query) {
+const q = query.toLowerCase();
+return (
+entry.root.toLowerCase().includes(q) ||
+entry.scripts.iast.toLowerCase().includes(q) ||
+entry.scripts.telugu.includes(q) ||
+entry.meaning.toLowerCase().includes(q)
+);
+}
 
-    let html = `
-      <table>
-        <thead>
-          <tr>
-            <th>Telugu</th>
-            <th>Root</th>
-            <th>IAST</th>
-            <th>Meaning</th>
-            <th>Note</th>
-          </tr>
-        </thead>
-        <tbody>
-    `;
+function searchDictionary(query) {
+const resultsDiv = document.getElementById("results");
+resultsDiv.innerHTML = "";
 
-    filtered.forEach(entry => {
-      html += `
-        <tr>
-          <td>${highlightMatch(entry.scripts.telugu, searchInput.value)}</td>
-          <td>${highlightMatch(entry.root, searchInput.value)}</td>
-          <td>${highlightMatch(entry.scripts.iast, searchInput.value)}</td>
-          <td>${highlightMatch(entry.meaning, searchInput.value)}</td>
-          <td><span class="note">${entry.note || ""}</span></td>
-        </tr>
-      `;
-    });
+const selectedPOS = document.getElementById("posFilter").value;
 
-    html += `</tbody></table>`;
-    resultsContainer.innerHTML = html;
-  }
-
-  // Filter logic
-  function filterEntries(query) {
-    const q = query.toLowerCase();
-    return dictionary.filter(entry =>
-      entry.root.toLowerCase().includes(q) ||
-      entry.meaning.toLowerCase().includes(q) ||
-      entry.scripts.telugu.includes(q) ||
-      entry.scripts.iast.toLowerCase().includes(q)
-    );
-  }
-
-  // Initial load
-  renderResults(dictionary);
-
-  // Event listener for input
-  searchInput.addEventListener("input", () => {
-    const query = searchInput.value.trim();
-    const filtered = filterEntries(query);
-    renderResults(filtered);
-  });
+const results = dictionary.filter(entry => {
+const match = matches(entry, query);
+const posMatch = selectedPOS === "all" || entry.label === selectedPOS;
+return match && posMatch;
 });
+
+if (results.length === 0) {
+resultsDiv.innerHTML = "<p>No results found.</p>";
+return;
+}
+
+let html =   <table>   <thead>   <tr>   <th>Word</th>   <th>Transliteration</th>   <th>Type</th>   <th>Meaning</th>   </tr>   </thead>   <tbody>  ;
+
+results.forEach(entry => {
+const teluguWord = entry.scripts.telugu || entry.root;
+const transliteration = entry.scripts.iast;
+const label = entry.label || "";
+const note = entry.note ? <span class="note">${entry.note}</span> : "";
+
+html += `  
+  <tr>  
+    <td>${highlightMatch(teluguWord, query)}</td>  
+    <td>${highlightMatch(transliteration, query)}</td>  
+    <td>${label}</td>  
+    <td>${highlightMatch(entry.meaning, query)} ${note}</td>  
+  </tr>  
+`;
+
+});
+
+html += "</tbody></table>";
+resultsDiv.innerHTML = html;
+}
+
+document.getElementById("searchInput").addEventListener("input", (e) => {
+searchDictionary(e.target.value.trim());
+});
+
+document.getElementById("posFilter").addEventListener("change", () => {
+const query = document.getElementById("searchInput").value.trim();
+searchDictionary(query);
+});
+
