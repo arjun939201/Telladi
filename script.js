@@ -1,11 +1,11 @@
-// Highlight matching text in the result
+// Highlight matching text
 function highlightMatch(text, query) {
   if (!query) return text;
   const pattern = new RegExp(`(${query})`, "gi");
   return text.replace(pattern, `<span class="highlight">$1</span>`);
 }
 
-// Check if dictionary entry matches the search query
+// Check if entry matches search query
 function matches(entry, query) {
   const q = query.toLowerCase();
   return (
@@ -61,10 +61,10 @@ function searchDictionary(query) {
   resultsDiv.innerHTML = html;
 }
 
-// Search input listener
+// On input
 document.getElementById("searchInput").addEventListener("input", (e) => {
   searchDictionary(e.target.value.trim());
 });
 
-// Initial display (all words)
+// Show all on load
 searchDictionary("");
