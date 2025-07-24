@@ -1,19 +1,22 @@
+// Highlight matching text in the result
 function highlightMatch(text, query) {
   if (!query) return text;
   const pattern = new RegExp(`(${query})`, "gi");
   return text.replace(pattern, `<span class="highlight">$1</span>`);
 }
 
+// Check if dictionary entry matches the search query
 function matches(entry, query) {
   const q = query.toLowerCase();
   return (
     entry.root.toLowerCase().includes(q) ||
-    entry.scripts.iast.toLowerCase().includes(q) ||
-    entry.scripts.telugu.includes(q) ||
+    (entry.scripts.iast && entry.scripts.iast.toLowerCase().includes(q)) ||
+    (entry.scripts.telugu && entry.scripts.telugu.includes(q)) ||
     entry.meaning.toLowerCase().includes(q)
   );
 }
 
+// Main search function
 function searchDictionary(query) {
   const resultsDiv = document.getElementById("results");
   resultsDiv.innerHTML = "";
@@ -40,7 +43,7 @@ function searchDictionary(query) {
 
   results.forEach(entry => {
     const teluguWord = entry.scripts.telugu || entry.root;
-    const transliteration = entry.scripts.iast;
+    const transliteration = entry.scripts.iast || entry.root;
     const label = entry.label || "";
     const note = entry.note ? `<span class="note">${entry.note}</span>` : "";
 
@@ -58,9 +61,10 @@ function searchDictionary(query) {
   resultsDiv.innerHTML = html;
 }
 
+// Search input listener
 document.getElementById("searchInput").addEventListener("input", (e) => {
   searchDictionary(e.target.value.trim());
 });
 
-// Show all on initial load
+// Initial display (all words)
 searchDictionary("");
