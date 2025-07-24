@@ -1441,8 +1441,5 @@ const dictionary = [
       telugu: "దాచు",
       iast: "dācu"
     }
-  },
-  {
-    root: "lagu",
-    label: "v.",
-    me
+  }
+  };
